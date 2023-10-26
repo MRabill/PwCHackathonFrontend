@@ -11,34 +11,40 @@ const { Text, Link } = Typography;
 
 const inputNodes = [
   {
-    title: 'Input Node 1',
+    title: 'API Request',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'RequestNode',
   },
   {
-    title: 'Input Node 2',
+    title: 'Data Ingestion',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'IngestionNode',
   },
 ];
 
 const integrationNodes = [
   {
-    title: 'Integration Node 1',
+    title: 'KYC Integration',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'KYCIntegration',
   },
   {
-    title: 'Integration Node 2',
+    title: 'User Behaviour Analysis',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'UserBehaviorAnalysis',
   },
 ];
 
 const outputNodes = [
   {
-    title: 'Output Node 1',
+    title: 'Suspicious Activity Alert',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'ActionNode',
   },
   {
-    title: 'Output Node 2',
+    title: 'Escalation',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'ActionNode',
   },
 ];
 
@@ -107,10 +113,10 @@ const SideBar = () => {
                 <div
                   key={index + 1}
                   className="dndnode input"
-                  onDragStart={(event) => onDragStart(event, 'RequestNode')}
+                  onDragStart={(event) => onDragStart(event, node.type)}
                   draggable
                 >
-                  {node.icon}
+                  {/* {node.icon} */}
                   {node.title}
                 </div>
               ),
@@ -125,11 +131,12 @@ const SideBar = () => {
                 <div
                   key={index + 10}
                   className="dndnode input"
-                  onDragStart={(event) => onDragStart(event, 'KYCIntegration')}
+                  onDragStart={(event) => onDragStart(event, node.type)}
                   draggable
+                  // style={{ marginLeft: '-30px', zIndex: '100' }}
                 >
-                  {node.icon}
-                  {node.title}
+                  {/* {node.icon} */}
+                  <div style={{ maxWidth: '100px' }}>{node.title}</div>
                 </div>
               ),
               key: index + 10,
@@ -143,10 +150,10 @@ const SideBar = () => {
                 <div
                   key={index + 20}
                   className="dndnode input"
-                  onDragStart={(event) => onDragStart(event, 'ActionNode')}
+                  onDragStart={(event) => onDragStart(event, node.type)}
                   draggable
                 >
-                  {node.icon}
+                  {/* {node.icon} */}
                   {node.title}
                 </div>
               ),

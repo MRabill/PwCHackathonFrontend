@@ -34,7 +34,9 @@ import { fetchData, postData } from '../../../utils/apiFunctions';
 import Sidebar from './SideBar';
 import RequestNode from './Node/RequestNode';
 import KYCIntegration from './Node/KYCIntegration';
+import UserBehaviorAnalysis from './Node/UserBehaviorAnalysis';
 import ActionNode from './Node/ActionNode';
+import IngestionNode from './Node/IngestionNode';
 
 import 'reactflow/dist/style.css';
 import '../../styles/Integration/IntegrationArea.css';
@@ -54,7 +56,9 @@ const userId = '123';
 const nodeTypes = {
   RequestNode: RequestNode,
   KYCIntegration: KYCIntegration,
+  UserBehaviorAnalysis: UserBehaviorAnalysis,
   ActionNode: ActionNode,
+  IngestionNode: IngestionNode,
 };
 
 let id = 3;
@@ -66,7 +70,7 @@ function IntegrationArea() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [apiKey, setapiKey] = useState(uuidv4());
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [configJSON, setConfigJSON] = useState({});
 
   const endpoint = `https://mrindustries/publish/${apiKey}`;
@@ -74,13 +78,12 @@ function IntegrationArea() {
   let nodesList = { Integration: [] };
   let config = {
     apiKey: apiKey,
-    userId: userId,
+    clientId: userId,
     endpoint: endpoint,
     input: {},
-    integration: {},
+    nodes: [],
     output: {},
   };
-  // console.log(config);
 
   function addParametersElement(nodeType, key, value) {
     config[`${nodeType}`][key] = value;
@@ -88,12 +91,17 @@ function IntegrationArea() {
     console.log(config);
   }
   function addIntegrationElement(integrationType, key, value) {
-    if (config['integration'][`${integrationType}`] == undefined) {
-      const newIntegration = {};
-      config['integration'][`${integrationType}`] = newIntegration;
+    const foundObject = config.nodes.find((obj) => obj.name == integrationType);
+
+    if (!foundObject) {
+      const params = { [key]: value };
+      const newIntegration = { name: integrationType, params: params };
+      config.nodes.push(newIntegration);
+    } else {
+      const object = config.nodes.find((obj) => obj.name == integrationType);
+      object.params[key] = value;
     }
 
-    config['integration'][`${integrationType}`][key] = value;
     setConfigJSON(config);
     console.log(config);
   }
@@ -163,7 +171,7 @@ function IntegrationArea() {
 
   const publish = () => {
     setLoading(true);
-    console.log({ ertere: configJSON });
+    // console.log({ CONFIG: configJSON });
     publishMutation.mutate(configJSON);
   };
 
@@ -215,6 +223,30 @@ function IntegrationArea() {
         inputConfig = {
           type: 'Integration',
           name: 'KYCIntegration',
+          body: 'body',
+          node: newNode,
+        };
+        addConfigIntegration(inputConfig);
+        setNodes((nds) => nds.concat(newNode));
+      }
+      if (type == 'IngestionNode') {
+        if (config.hasOwnProperty('Input')) {
+          warning('input node');
+        } else {
+          inputConfig = {
+            type: 'InputNode',
+            name: 'IngestionNode',
+            body: 'body',
+            node: newNode,
+          };
+          addConfigElement('Input', inputConfig);
+          setNodes((nds) => nds.concat(newNode));
+        }
+      }
+      if (type == 'UserBehaviorAnalysis') {
+        inputConfig = {
+          type: 'Integration',
+          name: 'UserBehaviorAnalysis',
           body: 'body',
           node: newNode,
         };
