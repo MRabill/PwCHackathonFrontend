@@ -1,14 +1,36 @@
 import React, { useState, useRef, useCallback } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
+  addEdge,
   useNodesState,
   useEdgesState,
   Controls,
   MiniMap,
   Background,
+  Panel,
+  applyEdgeChanges,
+  applyNodeChanges,
 } from 'reactflow';
 
-import { notification, message, Typography } from 'antd';
+import {
+  Button,
+  Input,
+  Row,
+  notification,
+  Space,
+  message,
+  Typography,
+} from 'antd';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
+const { Text, Link } = Typography;
+import { v4 as uuidv4 } from 'uuid';
+import { fetchData, postData } from '../../../utils/apiFunctions';
 import Sidebar from './SideBar';
 import RequestNode from './Node/RequestNode';
 import KYCIntegration from './Node/KYCIntegration';
@@ -43,8 +65,93 @@ function IntegrationArea() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [apiKey, setapiKey] = useState(uuidv4());
+  const [loading, setLoading] = useState([]);
+  const [configJSON, setConfigJSON] = useState({});
 
   const endpoint = `https://mrindustries/publish/${apiKey}`;
+
+  let nodesList = { Integration: [] };
+  let config = {
+    apiKey: apiKey,
+    userId: userId,
+    endpoint: endpoint,
+    input: {},
+    integration: {},
+    output: {},
+  };
+  // console.log(config);
+
+  function addParametersElement(nodeType, key, value) {
+    config[`${nodeType}`][key] = value;
+    setConfigJSON(config);
+    console.log(config);
+  }
+  function addIntegrationElement(integrationType, key, value) {
+    if (config['integration'][`${integrationType}`] == undefined) {
+      const newIntegration = {};
+      config['integration'][`${integrationType}`] = newIntegration;
+    }
+
+    config['integration'][`${integrationType}`][key] = value;
+    setConfigJSON(config);
+    console.log(config);
+  }
+
+  function addConfigElement(key, value) {
+    nodesList[key] = value;
+    console.log(nodesList);
+  }
+
+  function addConfigIntegration(value) {
+    nodesList.Integration.push(value);
+    console.log(nodesList);
+  }
+
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      message: 'Integration successful 🎉',
+      description: 'Your Integration has been successfully published!',
+    });
+  };
+
+  const warning = (text) => {
+    messageApi.open({
+      type: 'warning',
+      content: `You can not have more that one ${text}`,
+    });
+  };
+
+  const error = (text) => {
+    messageApi.open({
+      type: 'error',
+      content: `Error: ${text}`,
+    });
+  };
+
+  const publishMutation = useMutation(
+    (values) =>
+      postData({
+        url: url.PUBLISH,
+        body: values,
+      }),
+    {
+      onSuccess: async (values) => {
+        // await queryClient.invalidateQueries('logData');
+        openNotificationWithIcon('success');
+        setLoading(false);
+      },
+      onError: async (values) => {
+        error('Server Down! Unable to publish');
+        setLoading(false);
+      },
+    }
+  );
+
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge({ ...params, animated: true }, eds)),
+    []
+  );
 
   const [api, contextHolder] = notification.useNotification();
   const [messageApi, messageApicontextHolder] = message.useMessage();
@@ -87,6 +194,47 @@ function IntegrationArea() {
           addIntegrationElement: addIntegrationElement,
         },
       };
+
+      let inputConfig = {};
+
+      if (type == 'RequestNode') {
+        if (config.hasOwnProperty('Input')) {
+          warning('input node');
+        } else {
+          inputConfig = {
+            type: 'InputNode',
+            name: 'RequestNode',
+            body: 'body',
+            node: newNode,
+          };
+          addConfigElement('Input', inputConfig);
+          setNodes((nds) => nds.concat(newNode));
+        }
+      }
+      if (type == 'KYCIntegration') {
+        inputConfig = {
+          type: 'Integration',
+          name: 'KYCIntegration',
+          body: 'body',
+          node: newNode,
+        };
+        addConfigIntegration(inputConfig);
+        setNodes((nds) => nds.concat(newNode));
+      }
+      if (type == 'ActionNode') {
+        if (config.hasOwnProperty('Output')) {
+          warning('output node');
+        } else {
+          inputConfig = {
+            type: 'OutputNode',
+            name: 'RequestNode',
+            body: 'body',
+            node: newNode,
+          };
+          addConfigElement('Output', inputConfig);
+          setNodes((nds) => nds.concat(newNode));
+        }
+      }
     },
     [reactFlowInstance]
   );
@@ -114,7 +262,75 @@ function IntegrationArea() {
             fitView
           >
             <Background color="#ccc" variant={'dots'} />
+            <Panel style={{ width: '100%' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingRight: '20px',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                  }}
+                >
+                  <Input
+                    style={{ width: '300px' }}
+                    placeholder="Name of Integration"
+                  />
+                  <Text
+                    style={{ color: '#002855' }}
+                    copyable={{
+                      tooltips: false,
+                      text: `${apiKey}`,
+                    }}
+                  >
+                    <b>API Key: </b>
+                    {apiKey}
+                  </Text>
+                  <Text
+                    style={{ color: '#002855' }}
+                    copyable={{
+                      tooltips: false,
+                      text: endpoint,
+                    }}
+                  >
+                    <b>Endpoint: </b>
+                    {endpoint}
+                  </Text>
+                </div>
 
+                <div>
+                  <Button
+                    style={{
+                      background: '#CECECE',
+                      color: 'white',
+                      marginRight: '20px',
+                      width: '150px',
+                    }}
+                  >
+                    Pause
+                  </Button>
+                  {contextHolder}
+                  <Button
+                    style={{
+                      background: '#007EA7',
+                      color: 'white',
+                      width: '150px',
+                    }}
+                    onClick={() => publish()}
+                    loading={loading}
+                  >
+                    Publish
+                  </Button>
+                </div>
+              </div>
+            </Panel>
             <Controls />
             <MiniMap />
           </ReactFlow>
