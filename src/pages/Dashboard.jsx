@@ -144,10 +144,12 @@ function Dashboard() {
       <div className="row">
         <div className="col">
           <p className="title_name">
-            Dashboard{' '}
-            {integration && (
-              <span className="integration_label">/{integration}</span>
-            )}
+            Dashboard
+            <b>
+              {integration && (
+                <span className="integration_label">/{integration}</span>
+              )}
+            </b>
           </p>
         </div>
       </div>
