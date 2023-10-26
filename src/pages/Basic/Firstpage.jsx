@@ -1,9 +1,9 @@
 import { Button, Space } from 'antd';
-import { fetchData } from '../../utils/apiFunctions';
-import url from '../../utils/url';
+import { fetchData } from '../../../utils/apiFunctions';
+import url from '../../../utils/url';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import COLORS from '../assets/color';
+import COLORS from '../../assets/color';
 import { Col, Row } from 'antd';
 import '../styles/Firstpage.css';
 import { DownOutlined } from '@ant-design/icons';
