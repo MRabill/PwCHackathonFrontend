@@ -15,8 +15,7 @@ const ActionNode = ({ data, isConnectable }) => {
   }, []);
 
   useEffect(() => {
-    // data.addParametersElement('input', 'type', 'JSON');
-    // data.addParametersElement('input', 'body', '');
+    data.addParametersElement('output', 'type', 'JSON');
   }, []);
 
   const key = getRandomInt(9999);

@@ -72,8 +72,10 @@ function IntegrationArea() {
   const [apiKey, setapiKey] = useState(uuidv4());
   const [loading, setLoading] = useState(false);
   const [configJSON, setConfigJSON] = useState({});
+  const [isSaved, setIsSaved] = useState(false);
+  const [savedKey, setSavedKey] = useState(apiKey);
 
-  const endpoint = `https://mrindustries/publish/${apiKey}`;
+  const endpoint = `${url.BASIC}apiservice?apikey=${savedKey}`;
 
   let nodesList = { Integration: [] };
   let config = {
@@ -147,6 +149,8 @@ function IntegrationArea() {
       onSuccess: async (values) => {
         // await queryClient.invalidateQueries('logData');
         openNotificationWithIcon('success');
+        setIsSaved(true);
+        setSavedKey(apiKey);
         setLoading(false);
       },
       onError: async (values) => {
@@ -171,7 +175,7 @@ function IntegrationArea() {
 
   const publish = () => {
     setLoading(true);
-    // console.log({ CONFIG: configJSON });
+    console.log({ CONFIG: configJSON });
     publishMutation.mutate(configJSON);
   };
 
@@ -323,7 +327,7 @@ function IntegrationArea() {
                     }}
                   >
                     <b>API Key: </b>
-                    {apiKey}
+                    {isSaved ? savedKey : apiKey}
                   </Text>
                   <Text
                     style={{ color: '#002855' }}
