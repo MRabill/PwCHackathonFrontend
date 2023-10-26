@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Integration = lazy(() => import('./pages/Integration'));
 const Overview = lazy(() => import('./pages/Overview'));
+const Documentation = lazy(() => import('./pages/Documentation'));
 const User = lazy(() => import('./pages/User'));
 const Navbar = lazy(() => import('./components/Navbar'));
 const BarLoader = lazy(() => import('./pages/Basic/BarLoader'));
@@ -54,6 +55,10 @@ const App = () => {
     {
       path: '/LineChart',
       element: <LineChart />,
+    },
+    {
+      path: '/documentation',
+      element: <Documentation />,
     },
   ]);
 

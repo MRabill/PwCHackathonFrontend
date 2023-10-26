@@ -9,12 +9,39 @@ function Navbar() {
     navRef.current.classList.toggle('responsive_nav');
   };
 
+  const currentURL = window.location.href;
+
+  const url = new URL(currentURL);
+
+  const path = url.pathname;
+
+  console.log('Path: ' + path); // This will log "/integration"
+
   return (
     <header>
       <nav ref={navRef} style={{ zIndex: '1' }}>
-        <a href="/">Overview</a>
-        <a href="/integration">Integration</a>
-        <a href="/#">Documentation</a>
+        <a
+          href="/"
+          style={{ textDecoration: path == '/' ? 'underline' : 'none' }}
+        >
+          Overview
+        </a>
+        <a
+          href="/integration"
+          style={{
+            textDecoration: path == '/integration' ? 'underline' : 'none',
+          }}
+        >
+          Integration
+        </a>
+        <a
+          href="/documentation"
+          style={{
+            textDecoration: path == '/documentation' ? 'underline' : 'none',
+          }}
+        >
+          Documentation
+        </a>
 
         <button className="nav-btn nav-close-btn" onClick={showNavbar}>
           <FaTimes />

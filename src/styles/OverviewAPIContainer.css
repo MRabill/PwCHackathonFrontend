@@ -6,8 +6,8 @@
 }
 
 .api_container_title{
-    margin-top: 20px;
-    margin-left: 15px;
+    margin-top: 10px;
+    margin-left: 10px;
     color: #002855;
     font-size: 20px;
     font-weight: 100;
@@ -16,7 +16,8 @@
 
 .api_value_text {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
+    /* margin-left: -20px; */
     justify-content: center;
     align-items: center;
     color: #002855;

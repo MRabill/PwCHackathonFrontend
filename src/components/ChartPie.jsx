@@ -1,11 +1,5 @@
-import React from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Label
-} from "recharts";
+import React from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Label } from 'recharts';
 
 const CustomLabel = ({ viewBox, value }) => {
   const { cx, cy } = viewBox;
@@ -18,9 +12,9 @@ const CustomLabel = ({ viewBox, value }) => {
         className="recharts-text recharts-label"
         textAnchor="middle"
         dominantBaseline="middle"
-        fontSize="32"
+        fontSize="18"
         color="#002855"
-        fontWeight={'800'}
+        fontWeight={'600'}
       >
         {`${value}%`}
       </text>
@@ -34,7 +28,7 @@ function ChartPie({ data, colors, innerRadius, outerRadius }) {
   const activePercentage = ((data[0].value / total) * 100).toFixed(0);
 
   return (
-    <ResponsiveContainer width="100%" height={230}>
+    <ResponsiveContainer width="100%" height={165}>
       <PieChart>
         <Pie
           data={data}
