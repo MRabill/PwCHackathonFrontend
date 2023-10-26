@@ -16,6 +16,7 @@ const Integration = lazy(() => import('./pages/Integration'));
 const Overview = lazy(() => import('./pages/Overview'));
 const User = lazy(() => import('./pages/User'));
 const Navbar = lazy(() => import('./components/Navbar'));
+const Map = lazy(() => import('./pages/Map'));
 
 const Loading = () => {
   return <div>Loading...</div>;
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: '/User',
     element: <User />,
+  },
+  {
+    path: '/Map',
+    element: <Map />,
   },
   // {
   //   path: "/react_front_template",
