@@ -15,6 +15,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Integration = lazy(() => import('./pages/Integration'));
 const Overview = lazy(() => import('./pages/Overview'));
 const User = lazy(() => import('./pages/User'));
+const Navbar = lazy(() => import('./components/Navbar'));
 
 const Loading = () => {
   return <div>Loading...</div>;
@@ -58,6 +59,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={<Loading />}>
+        <NavBar />
         <RouterProvider router={router} />
       </Suspense>
     </QueryClientProvider>
