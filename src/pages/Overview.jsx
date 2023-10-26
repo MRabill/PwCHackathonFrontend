@@ -1,27 +1,40 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Overview.css";
 import OverviewAPIContainer from "../components/OverviewAPIContainer";
-import { Button, Input, Space } from "antd";
-import { SearchOutlined } from '@ant-design/icons';
-
+import { Button, Input, Space, Spin } from "antd"; // Import Spin component
+import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import TableP14 from "../components/TableP14";
+import { Link } from "react-router-dom";
 
 function Overview() {
-  // columns props
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const [apiData, setApiData] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const searchInput = useRef(null);
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
+
+  const fetchDataFromAPI = async () => {
+    try {
+      const response = await fetch("http://192.168.100.70:5000/integrations");
+      if (response.ok) {
+        const data = await response.json();
+        setApiData(data);
+      } else {
+        console.error("Failed to fetch data from the API");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Set loading to false when data fetching is complete
+    }
   };
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText('');
-  };
+
+  useEffect(() => {
+    fetchDataFromAPI();
+  }, []);
+
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div
@@ -38,7 +51,7 @@ function Overview() {
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{
             marginBottom: 8,
-            display: 'block',
+            display: "block",
           }}
         />
         <Space>
@@ -82,7 +95,7 @@ function Overview() {
               close();
             }}
           >
-            close
+            Close
           </Button>
         </Space>
       </div>
@@ -90,7 +103,7 @@ function Overview() {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          color: filtered ? '#1677ff' : undefined,
+          color: filtered ? "#1677ff" : undefined,
         }}
       />
     ),
@@ -105,20 +118,18 @@ function Overview() {
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{
-            backgroundColor: '#ffc069',
+            backgroundColor: "#ffc069",
             padding: 0,
           }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text ? text.toString() : ""}
         />
       ) : (
         text
       ),
   });
-  // end of column props
 
-  //columnd data and structure
   const columns = [
     {
       title: "Integration",
@@ -128,7 +139,7 @@ function Overview() {
           {text}
         </a>
       ),
-      ...getColumnSearchProps('integration'),
+      ...getColumnSearchProps("integration"),
     },
     {
       title: "Status",
@@ -181,74 +192,16 @@ function Overview() {
       title: null,
       dataIndex: "null",
       render: (text, record) => (
-        <a href="/#">
+        <Link to={`/dashboard?integration=${record.integration}`}>
           <img
             src="https://i.ibb.co/tY7MTNq/pepicons-pop-dots-x.png"
             alt="Click Me"
             style={{ width: "28px", height: "28px" }}
           />
-        </a>
+        </Link>
       ),
     },
   ];
-
-  const data = [
-    {
-      key: "1",
-      integration: "CDD Integration",
-      status: "Online",
-      uptime: "85%",
-      requests: 102000,
-      efficiency: "12%",
-      flags: "4523",
-      null: "image_placeholder",
-    },
-    {
-      key: "2",
-      integration: "KYC Pipeline Integration",
-      status: "Down",
-      uptime: "45%",
-      requests: 300000,
-      efficiency: "52%",
-      flags: "46K",
-      null: "image_placeholder",
-    },
-    {
-      key: "3",
-      integration: "AML Risk Scoring",
-      status: "Online",
-      uptime: "85%",
-      requests: 102000,
-      efficiency: "12%",
-      flags: 4450,
-      null: "image_placeholder",
-    },
-    {
-      key: "4",
-      integration: "AML Risk Scoring",
-      status: "Online",
-      uptime: "85%",
-      requests: 102001,
-      efficiency: "12%",
-      flags: 4450,
-      null: "image_placeholder",
-    },
-    {
-      key: "5",
-      integration: "AML Risk Scoring",
-      status: "Online",
-      uptime: "85%",
-      requests: 15000,
-      efficiency: "12%",
-      flags: 4450,
-      null: "image_placeholder",
-    },
-  ];
-
-
-  //end of column data and structure
-
-
 
   return (
     <div className="container-fluid vh-100">
@@ -262,20 +215,12 @@ function Overview() {
         <OverviewAPIContainer />
       </div>
 
-      <div className="row">
-        <div className="col d-flex justify-content-end">
-          <button className="btn_filterbtn">
-            <img
-              src="https://i.ibb.co/QQNg4mg/Group-11.png"
-              alt="Filter Icon"
-            />{" "}
-            Filter
-          </button>
-        </div>
-      </div>
-
       <div className="overview_table">
-        <TableP14 columns={columns} data={data} />
+        {loading ? (
+          <Spin size="large" />
+        ) : (
+          <TableP14 columns={columns} data={apiData} />
+        )}
       </div>
     </div>
   );

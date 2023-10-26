@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Overview.css";
 import OverviewAPIContainer from "../components/OverviewAPIContainer";
 import { Button, Input, Space } from "antd";
+import { useLocation } from "react-router-dom";
 import { SearchOutlined } from '@ant-design/icons';
 
 import Highlighter from "react-highlight-words";
@@ -11,7 +12,8 @@ import DashboardAPIContainer from "../components/DashboardAPIContainer";
 
 function Dashboard() {
 
-
+  const location = useLocation();
+  const integration = new URLSearchParams(location.search).get("integration");
   //columnd data and structure
   const columns = [
     {
@@ -145,22 +147,27 @@ function Dashboard() {
     <div className="container-fluid vh-100">
       <div className="row">
         <div className="col">
-          <p className="title_name">Dashboard</p>
+          <p className="title_name">Dashboard {integration && (
+            <span className="integration_label">
+              /{integration}
+            </span>
+          )}</p>
+
         </div>
       </div>
 
       <div className="row" id="container_list">
-        <DashboardAPIContainer/>
+        <DashboardAPIContainer />
       </div>
-
+      
       <div className="row">
         <div className="col d-flex justify-content-end">
           <button className="btn_filterbtn">
             <img
-              src="https://i.ibb.co/QQNg4mg/Group-11.png"
+              src="https://i.ibb.co/SmkQQ8G/editbuttonpwc.png"
               alt="Filter Icon"
             />{" "}
-            Filter
+            Edit 
           </button>
         </div>
       </div>
