@@ -172,15 +172,14 @@ function Dashboard() {
             </button>
           </Link>
         </div>
+
         <div className="col d-flex justify-content-end">
           <button className="btn_filterbtn">
-            <Link to="/Edit">
               <img
                 src="https://i.ibb.co/SmkQQ8G/editbuttonpwc.png"
                 alt="Filter Icon"
               />{" "}
               Edit
-            </Link>
           </button>
         </div>
       </div>
