@@ -10,7 +10,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Integration = lazy(() => import('./pages/Integration'));
 const Overview = lazy(() => import('./pages/Overview'));
 const Documentation = lazy(() => import('./pages/Documentation'));
-const User = lazy(() => import('./pages/User'));
+const UserDetails = lazy(() => import('./pages/UserDetails'));
 const Navbar = lazy(() => import('./components/Navbar'));
 const BarLoader = lazy(() => import('./pages/Basic/BarLoader'));
 const Map = lazy(() => import('./pages/Map'));
@@ -45,8 +45,8 @@ const App = () => {
       element: <Integration />,
     },
     {
-      path: '/User',
-      element: <User />,
+      path: '/UserDetails',
+      element: <UserDetails />,
     },
     {
       path: '/Map',

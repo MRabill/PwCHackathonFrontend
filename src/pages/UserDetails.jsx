@@ -10,9 +10,9 @@ import Highlighter from 'react-highlight-words';
 import TableP14 from '../components/TableP14';
 import DashboardAPIContainer from '../components/DashboardAPIContainer';
 
-function Dashboard() {
+function UserDetails() {
   const location = useLocation();
-  const integration = new URLSearchParams(location.search).get('integration');
+  const name = new URLSearchParams(location.search).get('name');
   //columnd data and structure
   const columns = [
     {
@@ -73,13 +73,13 @@ function Dashboard() {
       title: null,
       dataIndex: 'null',
       render: (text, record) => (
-        <Link to={`/UserDetails?name=${record.name}`}>
+        <a href="/#">
           <img
             src="https://i.ibb.co/tY7MTNq/pepicons-pop-dots-x.png"
             alt="Click Me"
             style={{ width: '28px', height: '28px' }}
           />
-        </Link>
+        </a>
       ),
     },
   ];
@@ -142,54 +142,56 @@ function Dashboard() {
   return (
     <div className="container-fluid vh-100">
       <div className="row">
-
         <div className="col">
           <p className="title_name">
-            Dashboard
+            Client
             <b>
-              {integration && (
-                <span className="integration_label">/{integration}</span>
+              {name && (
+                <span className="name_label">/{name}</span>
               )}
             </b>
           </p>
         </div>
-
-        
       </div>
 
       <div className="row" id="container_list">
-        <DashboardAPIContainer />
+        <OverviewAPIContainer />
+      </div>
+
+
+
+      <div className="row">
+        <div className="col">
+          <p className="padding">Incoming Transaction {">"} Entity Name</p>
+        </div>
+      </div>
+      <div className="overview_table">
+        <TableP14 columns={columns} data={data} />
+      </div>
+
+      
+      <div className="row">
+        <div className="col">
+          <p className="padding">Outgoing Transaction {">"} Entity Name</p>
+        </div>
+      </div>
+      <div className="overview_table">
+        <TableP14 columns={columns} data={data} />
       </div>
 
       <div className="row">
         <div className="col">
-          <Link to="/Map">
-            <button className="btn_filterbtn">
-              <img
-                src="https://i.ibb.co/DzNZFjh/Mapbuttonpwc.png"
-                alt="Filter Icon"
-              />{' '}
-              Map
-            </button>
-          </Link>
-        </div>
-
-        <div className="col d-flex justify-content-end">
-          <button className="btn_filterbtn">
-            <img
-              src="https://i.ibb.co/SmkQQ8G/editbuttonpwc.png"
-              alt="Filter Icon"
-            />{' '}
-            Edit
-          </button>
+          <p className="padding">Transactions with Watchlist People {">"} Entity Name</p>
         </div>
       </div>
 
       <div className="overview_table">
         <TableP14 columns={columns} data={data} />
       </div>
+
+
     </div>
   );
 }
 
-export default Dashboard;
+export default UserDetails;
