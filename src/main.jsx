@@ -13,6 +13,7 @@ const User = lazy(() => import('./pages/User'));
 const Navbar = lazy(() => import('./components/Navbar'));
 const BarLoader = lazy(() => import('./pages/Basic/BarLoader'));
 const Map = lazy(() => import('./pages/Map'));
+const LineChart = lazy(() => import('./components/LineChart'));
 
 const Loading = () => {
   return <div>Loading...</div>;
@@ -22,7 +23,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const delay = 2000; // 2 seconds in milliseconds
+    const delay = 500; // 2 seconds in milliseconds
 
     setTimeout(() => {
       setIsLoading(false);
@@ -49,6 +50,10 @@ const App = () => {
     {
       path: '/Map',
       element: <Map />,
+    },
+    {
+      path: '/LineChart',
+      element: <LineChart />,
     },
   ]);
 

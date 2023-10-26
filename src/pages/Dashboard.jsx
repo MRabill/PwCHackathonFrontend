@@ -7,6 +7,7 @@ import { SearchOutlined } from '@ant-design/icons';
 
 import Highlighter from "react-highlight-words";
 import TableP14 from "../components/TableP14";
+import DashboardAPIContainer from "../components/DashboardAPIContainer";
 
 function Dashboard() {
 
@@ -85,7 +86,7 @@ function Dashboard() {
   const data = [
     {
       key: "1",
-      integration: "Pravesh Gowreea",
+      name: "Pravesh Gowreea",
       status: "Active",
       kycstatus: "85%",
       requests: 125,
@@ -95,7 +96,7 @@ function Dashboard() {
     },
     {
       key: "2",
-      integration: "Kavish",
+      name: "Kavish",
       status: "Active",
       kycstatus: "85%",
       requests: 125,
@@ -105,7 +106,7 @@ function Dashboard() {
     },
     {
       key: "3",
-      integration: "Raj",
+      name: "Raj",
       status: "Active",
       kycstatus: "85%",
       requests: 125,
@@ -115,7 +116,7 @@ function Dashboard() {
     },
     {
       key: "4",
-      integration: "Rabill",
+      name: "Rabill",
       status: "Active",
       kycstatus: "85%",
       requests: 125,
@@ -125,7 +126,7 @@ function Dashboard() {
     },
     {
       key: "5",
-      integration: "Kavish Gowreea",
+      name: "Kavish Gowreea",
       status: "Active",
       kycstatus: "85%",
       requests: 125,
@@ -149,7 +150,7 @@ function Dashboard() {
       </div>
 
       <div className="row" id="container_list">
-        <OverviewAPIContainer />
+        <DashboardAPIContainer/>
       </div>
 
       <div className="row">
