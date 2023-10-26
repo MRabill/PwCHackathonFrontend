@@ -59,7 +59,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={<Loading />}>
-        <NavBar />
+        <Navbar />
         <RouterProvider router={router} />
       </Suspense>
     </QueryClientProvider>
