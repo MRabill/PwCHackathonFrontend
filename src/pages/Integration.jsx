@@ -10,7 +10,7 @@ const Integration = () => {
         width: '100vw',
         height: '100vh',
         background: 'white',
-        marginTop: '2rem',
+        // marginTop: '2rem',
       }}
     >
       <IntegrationArea />
