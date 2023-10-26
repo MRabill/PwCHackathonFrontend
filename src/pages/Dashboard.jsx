@@ -5,7 +5,7 @@ import OverviewAPIContainer from "../components/OverviewAPIContainer";
 import { Button, Input, Space } from "antd";
 import { useLocation } from "react-router-dom";
 import { SearchOutlined } from '@ant-design/icons';
-
+import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import TableP14 from "../components/TableP14";
 import DashboardAPIContainer from "../components/DashboardAPIContainer";
@@ -159,15 +159,28 @@ function Dashboard() {
       <div className="row" id="container_list">
         <DashboardAPIContainer />
       </div>
-      
+
       <div className="row">
+        <div className="col">
+          <Link to="/Map">
+            <button className="btn_filterbtn">
+              <img
+                src="https://i.ibb.co/DzNZFjh/Mapbuttonpwc.png"
+                alt="Filter Icon"
+              />{" "}
+              Map
+            </button>
+          </Link>
+        </div>
         <div className="col d-flex justify-content-end">
           <button className="btn_filterbtn">
-            <img
-              src="https://i.ibb.co/SmkQQ8G/editbuttonpwc.png"
-              alt="Filter Icon"
-            />{" "}
-            Edit 
+            <Link to="/Edit">
+              <img
+                src="https://i.ibb.co/SmkQQ8G/editbuttonpwc.png"
+                alt="Filter Icon"
+              />{" "}
+              Edit
+            </Link>
           </button>
         </div>
       </div>
