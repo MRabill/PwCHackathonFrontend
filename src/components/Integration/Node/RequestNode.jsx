@@ -73,6 +73,7 @@ const RequestNode = ({ data, isConnectable }) => {
               />
             </Form.Item>
           </Form>
+          <Text style={{ color: '#8c8c8c' }}>Cost: $0.001 per request</Text>
         </div>
       </div>
       <Handle

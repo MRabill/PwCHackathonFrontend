@@ -13,23 +13,23 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-const UserBehaviorAnalysis = ({ data, isConnectable }) => {
+const Fraudulent = ({ data, isConnectable }) => {
   useEffect(() => {
-    data.addIntegrationElement('UserBehaviorAnalysis', 'features', []);
-    data.addIntegrationElement('UserBehaviorAnalysis', 'duration', '');
-    data.addIntegrationElement('UserBehaviorAnalysis', 'id', 6);
+    data.addIntegrationElement('Fraudulent', 'features', []);
+    data.addIntegrationElement('Fraudulent', 'duration', '');
+    data.addIntegrationElement('Fraudulent', 'id', 7);
   }, []);
 
   const key = getRandomInt(9999);
 
   const FeasturesChange = (criteria) => {
-    data.addIntegrationElement('UserBehaviorAnalysis', 'features', criteria);
+    data.addIntegrationElement('Fraudulent', 'features', criteria);
     // console.log(event);
   };
 
   const dayChange = (event) => {
     data.addIntegrationElement(
-      'UserBehaviorAnalysis',
+      'Fraudulent',
       'duration',
       event.target.value.toString()
     );
@@ -60,7 +60,7 @@ const UserBehaviorAnalysis = ({ data, isConnectable }) => {
           }}
         >
           <Text style={{ color: '#002855' }}>
-            <b>User Behaviour Analysis</b>
+            <b>Fraud classification</b>
           </Text>
         </div>
         <div
@@ -115,4 +115,4 @@ const UserBehaviorAnalysis = ({ data, isConnectable }) => {
   );
 };
 
-export default UserBehaviorAnalysis;
+export default Fraudulent;

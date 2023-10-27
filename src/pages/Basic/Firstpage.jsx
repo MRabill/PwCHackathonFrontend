@@ -83,7 +83,7 @@ function FirstPage() {
           >
             <Space size={50}>
               <img
-                src="https://www.sdworx.com/_next/static/media/sdworx_logo.18890061.svg"
+                src="https://www.pwc.com/gx/en.html"
                 alt="Logo"
                 width="150px"
               ></img>

@@ -24,18 +24,28 @@ const inputNodes = [
 
 const integrationNodes = [
   {
-    title: 'KYC Integration',
-    icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
-    type: 'KYCIntegration',
-  },
-  {
     title: 'User Behaviour Analysis',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
     type: 'UserBehaviorAnalysis',
   },
+  {
+    title: 'Fraud classification',
+    icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'Fraudulent',
+  },
+  {
+    title: 'KYC Integration',
+    icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'KYCIntegration',
+  },
 ];
 
 const outputNodes = [
+  {
+    title: 'Basic Action',
+    icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'ActionNode',
+  },
   {
     title: 'Suspicious Activity Alert',
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
