@@ -14,11 +14,11 @@ function UserDetailsAPIContainer({ accountNumber }) {
       .then((response) => response.json())
       .then((result) => {
         const matchingUser = result.users.find(
-          (user) => user.account_number == accountNumber
+          (user) => user.account_number === accountNumber
         );
 
         const matchingPrediction = result.prediction.find(
-          (prediction) => prediction.account_number == accountNumber
+          (prediction) => prediction.account_number === accountNumber
         );
 
         if (matchingUser && matchingPrediction) {

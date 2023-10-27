@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import OverviewAPIContainer from '../components/OverviewAPIContainer';
 import TableP14 from '../components/TableP14';
 import { Spin } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Overview.css';
 import UserDetailsAPIContainer from '../components/UserDetailsAPIContainer';
-import { fetchData } from '../../utils/apiFunctions';
-import { useQuery } from 'react-query';
 
 function UserDetails() {
   const location = useLocation();
   const name = new URLSearchParams(location.search).get('name');
   const accountNumber = new URLSearchParams(location.search).get('account_number');
   const [data, setData] = useState(null);
-
-
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     {
@@ -109,64 +107,52 @@ function UserDetails() {
     },
   ];
 
-  
-  // useEffect(async () => {
-  //   try {
-  //     const response = await fetch('http://192.168.100.70:5000/transaction/list?account_no=409000611074');
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log(data);
-  //       setData(data);
-  //     } else {
-  //       console.error('Failed to fetch data from the API');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   } finally {
-  //     setLoading(false); // Set loading to false when data fetching is complete
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    fetch('http://192.168.100.70:5000/transaction/list?account_no=409000611074')
+      .then((response) => response.json())
+      .then((result) => {
+        if (result) {
+          setData(result);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      });
+  }, []);
+
 
   // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const response = await fetch('http://192.168.100.70:5000/transaction/list?account_no=409000611074');
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log(data);
-  //         setData(data);
-  //       } else {
-  //         console.error('Failed to fetch data from the API');
+  //   fetch('http://192.168.100.70:5000/transaction/list?account_no=409000611074')
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       const matchingUser = result.users.find(
+  //         (user) => user.account_number === accountNumber
+  //       );
+
+  //       const matchingPrediction = result.prediction.find(
+  //         (prediction) => prediction.account_number === accountNumber
+  //       );
+
+  //       if (matchingUser && matchingPrediction) {
+  //         setData([
+  //           {
+  //             ...matchingPrediction,
+  //             kyc_score: matchingUser.kyc_score,
+  //             risk_score: matchingUser.risk.score,
+  //             risk_value: matchingUser.risk.value,
+  //           },
+  //         ]);
   //       }
-  //     } catch (error) {
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
   //       console.error('Error fetching data:', error);
-  //     } finally {
-  //       setLoading(false); // Set loading to false when data fetching is complete
-  //     }
-  //   }
-  
-  //   fetchData(); // Call the fetchData function to initiate the data fetching.
-
-  // }, []);
-  const {
-    data: responses = [],
-  } = useQuery(
-    ['respfgf'],
-    () => fetchData({ url: 'http://192.168.100.70:5000/transaction/list?account_no=' + accountNumber }),
-    { refetchOnWindowFocus: false },
-    {
-      onError: (e) => {
-        return (
-          <Alert severity="error">This is an error alert — check it out!</Alert>
-        );
-      },
-      
-    }
-  );
-
-
-
-
+  //       setLoading(false);
+  //     });
+  // }, [accountNumber]);
 
   return (
     <div className="container-fluid vh-90">
@@ -183,13 +169,13 @@ function UserDetails() {
       </div>
 
       <div className="row" id="container_list">
-        <UserDetailsAPIContainer accountNumber={accountNumber} />
+        <UserDetailsAPIContainer Account_No = {accountNumber}  />
       </div>
 
       <div className="overview_table">
-
-          <TableP14 columns={columns} data={responses} />
-
+        <Spin spinning={loading} size="large">
+          <TableP14 columns={columns} data={data} />
+        </Spin>
       </div>
     </div>
   );
