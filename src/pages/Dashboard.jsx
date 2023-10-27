@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Overview.css';
 import OverviewAPIContainer from '../components/OverviewAPIContainer';
-import { Button, Flex, Input, Space } from 'antd';
+import { Button, Flex, Input, Space, Spin } from 'antd'; // Import Spin from 'antd'
 import { useLocation } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -14,19 +14,19 @@ function Dashboard() {
   const location = useLocation();
   const integration = new URLSearchParams(location.search).get('integration');
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       render: (text, record) => (
-        <Link
-          to={`/UserDetails?name=${record.name}&account_number=${record.account_number}`}
-        >
+  
+
           <a style={{ fontSize: '17px', color: '#002855', fontWeight: '200' }}>
             {text}
           </a>
-        </Link>
+
       ),
     },
     {
@@ -80,14 +80,16 @@ function Dashboard() {
         if (result.users) {
           setData(result.users);
         }
+        setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+        setLoading(false);
       });
   }, []);
 
   return (
-    <div className="container-fluid vh-100">
+    <div className="container-fluid vh-110">
       <div className="row" style={{ width: '100%' }}>
         <div className="col">
           <p className="title_name">
@@ -133,7 +135,9 @@ function Dashboard() {
       <div className="row"></div>
 
       <div className="overview_table">
-        <TableP14 columns={columns} data={data} />
+        <Spin spinning={loading} size="large">
+          <TableP14 columns={columns} data={data} />
+        </Spin>
       </div>
     </div>
   );

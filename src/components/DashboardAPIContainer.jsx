@@ -15,7 +15,7 @@ function DashboardAPIContainer() {
     labels: ['2016', '2017', '2018', '2019', '2020'],
     datasets: [
       {
-        label: 'Number of Requests per Day',
+        label: '',
         data: [2, 6, 9, 7, 11],
         borderColor: '#007EA7',
         backgroundColor: '#F0FAF1',
@@ -23,6 +23,21 @@ function DashboardAPIContainer() {
         pointBackgroundColor: '#FEF1F1',
       },
     ],
+  }
+
+    const linedata2 = {
+      labels: ['2016', '2017', '2018', '2019', '2020'],
+      datasets: [
+        {
+          label: '',
+          data: [2, 6, 9, 7, 11],
+          borderColor: '#c52424',
+          backgroundColor: '#F0FAF1',
+          pointBorderColor: '#AAA',
+          pointBackgroundColor: '#FEF1F1',
+        },
+      ],
+    
   };
 
   return (
@@ -66,7 +81,7 @@ function DashboardAPIContainer() {
         <div className="api_container">
           <Container>
             <Row>
-              <p className="api_container_title"> Down API</p>
+              <p className="api_container_title"> Requests Per Day</p>
             </Row>
             <Row>
               {/* <Col>
@@ -93,7 +108,7 @@ function DashboardAPIContainer() {
         <div className="api_container">
           <Container>
             <Row>
-              <p className="api_container_title"> Down API</p>
+              <p className="api_container_title"> Flags Per Total Transaction</p>
             </Row>
             <Row>
               {/* <Col>
@@ -110,7 +125,7 @@ function DashboardAPIContainer() {
                                 <p>Total number of API: <span className='bold-data'>{data2.reduce((total, item) => total + item.value, 0)}</span></p>
                             </Col> */}
 
-              <LineChart data={linedata} />
+              <LineChart data={linedata2} />
             </Row>
           </Container>
         </div>

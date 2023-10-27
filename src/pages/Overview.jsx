@@ -182,7 +182,7 @@ function Overview() {
     },
     {
       title: 'Efficiency',
-      dataIndex: 'efficiency',
+      dataIndex: 'Efficiency',
       render: (text) => (
         <a style={{ fontSize: '17px', color: '#002855', fontWeight: '200' }}>
           {text}
@@ -214,7 +214,7 @@ function Overview() {
   ];
 
   return (
-    <div className="container-fluid vh-100">
+    <div className="container-fluid vh-90">
       <div className="row">
         <div className="col">
           {/* <p className="title_name">Overview</p> */}

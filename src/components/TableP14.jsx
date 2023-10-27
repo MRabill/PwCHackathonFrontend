@@ -8,7 +8,7 @@ const TableP14 = ({ columns, data }) => {
     <div
       style={{
         zIndex: "0",
-        maxHeight: "300px",
+        maxHeight: "400px",
         overflowY: "scroll",
         border: "1px solid #e0e0e0",
         borderRadius: "10px",
