@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Overview.css';
 import OverviewAPIContainer from '../components/OverviewAPIContainer';
-import { Button, Input, Space } from 'antd';
+import { Button, Flex, Input, Space } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -20,7 +20,9 @@ function Dashboard() {
       title: 'Name',
       dataIndex: 'name',
       render: (text, record) => (
-        <Link to={`/UserDetails?name=${record.name}&account_number=${record.account_number}`}>
+        <Link
+          to={`/UserDetails?name=${record.name}&account_number=${record.account_number}`}
+        >
           <a style={{ fontSize: '17px', color: '#002855', fontWeight: '200' }}>
             {text}
           </a>
@@ -58,7 +60,9 @@ function Dashboard() {
       title: null,
       dataIndex: 'null',
       render: (text, record) => (
-        <Link to={`/UserDetails?name=${record.name}&account_number=${record.account_number}`}>
+        <Link
+          to={`/UserDetails?name=${record.name}&account_number=${record.account_number}`}
+        >
           <img
             src="https://i.ibb.co/tY7MTNq/pepicons-pop-dots-x.png"
             alt="Click Me"
@@ -84,7 +88,7 @@ function Dashboard() {
 
   return (
     <div className="container-fluid vh-100">
-      <div className="row">
+      <div className="row" style={{ width: '100%' }}>
         <div className="col">
           <p className="title_name">
             Dashboard
@@ -93,35 +97,40 @@ function Dashboard() {
             )}
           </p>
         </div>
+        <div
+          className="col"
+          style={{
+            marginTop: '20px',
+            display: 'flex',
+            marginLeft: 'auto',
+            marginRight: '0px',
+          }}
+        >
+          <div className="col d-flex justify-content-end">
+            <button className="btn_filterbtn">
+              <img
+                src="https://i.ibb.co/SmkQQ8G/editbuttonpwc.png"
+                alt="Filter Icon"
+              />
+            </button>
+            <Link to="/Map" style={{ marginLeft: '-20px' }}>
+              <button className="btn_filterbtn">
+                <img
+                  src="https://i.ibb.co/DzNZFjh/Mapbuttonpwc.png"
+                  alt="Filter Icon"
+                />{' '}
+                {/* Map */}
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
 
       <div className="row" id="container_list">
         <DashboardAPIContainer />
       </div>
 
-      <div className="row">
-        <div className="col">
-          <Link to="/Map">
-            <button className="btn_filterbtn">
-              <img
-                src="https://i.ibb.co/DzNZFjh/Mapbuttonpwc.png"
-                alt="Filter Icon"
-              />{' '}
-              Map
-            </button>
-          </Link>
-        </div>
-
-        <div className="col d-flex justify-content-end">
-          <button className="btn_filterbtn">
-            <img
-              src="https://i.ibb.co/SmkQQ8G/editbuttonpwc.png"
-              alt="Filter Icon"
-            />{' '}
-            Edit
-          </button>
-        </div>
-      </div>
+      <div className="row"></div>
 
       <div className="overview_table">
         <TableP14 columns={columns} data={data} />

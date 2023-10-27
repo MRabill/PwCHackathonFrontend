@@ -39,6 +39,7 @@ import UserBehaviorAnalysis from './Node/UserBehaviorAnalysis';
 import ActionNode from './Node/ActionNode';
 import IngestionNode from './Node/IngestionNode';
 import Fraudulent from './Node/Fraudulent';
+import AMLTransaction from './Node/AMLTransaction';
 
 import 'reactflow/dist/style.css';
 import '../../styles/Integration/IntegrationArea.css';
@@ -62,6 +63,7 @@ const nodeTypes = {
   ActionNode: ActionNode,
   IngestionNode: IngestionNode,
   Fraudulent: Fraudulent,
+  AMLTransaction: AMLTransaction,
 };
 
 let id = 3;
@@ -248,6 +250,18 @@ function IntegrationArea() {
         inputConfig = {
           type: 'Integration',
           name: 'KYCIntegration',
+          body: 'body',
+          node: newNode,
+        };
+        const newCost = cost;
+        setCost(newCost + 0.001);
+        addConfigIntegration(inputConfig);
+        setNodes((nds) => nds.concat(newNode));
+      }
+      if (type == 'AMLTransaction') {
+        inputConfig = {
+          type: 'Integration',
+          name: 'AMLTransaction',
           body: 'body',
           node: newNode,
         };

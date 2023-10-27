@@ -4,11 +4,7 @@ import Col from 'react-bootstrap/Col';
 import '../styles/OverviewAPIContainer.css';
 import ChartPie from '../components/ChartPie';
 
-
 function OverviewAPIContainer() {
-
-
-  
   const data1 = [
     { name: 'Active APIs', value: 7 },
     { name: 'Inactive APIs', value: 4 },
@@ -17,14 +13,12 @@ function OverviewAPIContainer() {
   const data2 = [
     { name: 'Active APIs', value: 3 },
     { name: 'Inactive APIs', value: 7 },
-    
   ];
 
   const data3 = [
     { name: 'Active APIs', value: 60 },
     { name: 'Inactive APIs', value: 40 },
   ];
-
 
   return (
     <div className="row">
@@ -38,7 +32,7 @@ function OverviewAPIContainer() {
               <Col>
                 <ChartPie
                   data={data1}
-                  colors={['#007EA7', '#D9D9D9',]}
+                  colors={['#00AC4F', '#D9D9D9']}
                   innerRadius={50}
                   outerRadius={70}
                 />
@@ -79,7 +73,7 @@ function OverviewAPIContainer() {
               <Col>
                 <ChartPie
                   data={data2}
-                  colors={['#007EA7', '#D9D9D9']}
+                  colors={['#D8B128', '#D9D9D9']}
                   innerRadius={50}
                   outerRadius={70}
                 />

@@ -38,6 +38,11 @@ const integrationNodes = [
     icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
     type: 'KYCIntegration',
   },
+  {
+    title: 'AML Integration',
+    icon: <MdAnalytics size={20} style={{ marginRight: '8px' }} />,
+    type: 'AMLTransaction',
+  },
 ];
 
 const outputNodes = [
