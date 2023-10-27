@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import { Handle, Position } from 'reactflow';
-import { Typography, Input, Select, Checkbox, Row, Col } from 'antd';
+import { Typography, Input, Select, Checkbox, Row, Col, Form } from 'antd';
 
 const { Text } = Typography;
 
@@ -15,8 +15,23 @@ const ActionNode = ({ data, isConnectable }) => {
   }, []);
 
   useEffect(() => {
-    data.addParametersElement('output', 'type', 'JSON');
+    data.addParametersElement('output', 'allowAnalytics', false);
+    data.addParametersElement('output', 'alert', false);
+    data.addParametersElement('output', 'email', 'Rabill785@gmail.com');
   }, []);
+
+  const allowAnalyticChange = (event) => {
+    console.log(event.target.checked);
+    data.addParametersElement('output', 'allowAnalytics', event.target.checked);
+  };
+  const allowAlertChange = (event) => {
+    console.log(event.target.checked);
+    data.addParametersElement('output', 'alert', event.target.checked);
+  };
+  const emailChange = (event) => {
+    console.log(event.target.value);
+    data.addParametersElement('output', 'email', event.target.value);
+  };
 
   const key = getRandomInt(9999);
 
@@ -42,7 +57,7 @@ const ActionNode = ({ data, isConnectable }) => {
             style={{ marginTop: '10px', marginBottom: '-10px', padding: '0px' }}
           >
             <Checkbox
-              onChange={onChange}
+              onChange={allowAnalyticChange}
               style={{ color: '#007EA7' }}
             ></Checkbox>
             <Text style={{ color: '#002855', marginLeft: '10px' }}>
@@ -53,7 +68,7 @@ const ActionNode = ({ data, isConnectable }) => {
             style={{ marginTop: '10px', marginBottom: '-10px', padding: '0px' }}
           >
             <Checkbox
-              onChange={onChange}
+              onChange={allowAlertChange}
               style={{ color: '#007EA7' }}
             ></Checkbox>
             <Text style={{ color: '#002855', marginLeft: '10px' }}>Alert</Text>
@@ -76,12 +91,24 @@ const ActionNode = ({ data, isConnectable }) => {
             <option value="POST Link">Request</option>
             {/* <option value="audi">VerifAI</option> */}
           </select>
-          <Input
+          {/* <Input
             key={key + 1}
             onChange={onChange}
             style={{ width: '100%' }}
             placeholder={`${channel}`}
-          />
+          /> */}
+          <Form name="basic" autoComplete="off">
+            <Text style={{ color: '#002855' }}>Host</Text>
+            <Form.Item name="body" style={{ margin: 0, marginBottom: '5px' }}>
+              <Input
+                key={key + 1}
+                onChange={emailChange}
+                style={{ width: '100%' }}
+                placeholder={`${channel}`}
+              />
+            </Form.Item>
+          </Form>
+          <Text style={{ color: '#8c8c8c' }}>Cost: $0.2 per request</Text>
         </div>
       </div>
       <Handle

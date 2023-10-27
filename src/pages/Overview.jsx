@@ -143,9 +143,11 @@ function Overview() {
       title: 'Integration',
       dataIndex: 'integration',
       render: (text) => (
-        <a style={{ fontSize: '17px', color: '#002855', fontWeight: '200' }}>
+        <Link to={`/dashboard?integration=${text.integration}`}>
+            <a style={{ fontSize: '17px', color: '#002855', fontWeight: '200' }}>
           {text}
         </a>
+      </Link>
       ),
       ...getColumnSearchProps('integration'),
     },

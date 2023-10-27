@@ -20,6 +20,7 @@ import {
   Space,
   message,
   Typography,
+  Form,
 } from 'antd';
 import {
   useQuery,
@@ -37,6 +38,7 @@ import KYCIntegration from './Node/KYCIntegration';
 import UserBehaviorAnalysis from './Node/UserBehaviorAnalysis';
 import ActionNode from './Node/ActionNode';
 import IngestionNode from './Node/IngestionNode';
+import Fraudulent from './Node/Fraudulent';
 
 import 'reactflow/dist/style.css';
 import '../../styles/Integration/IntegrationArea.css';
@@ -59,6 +61,7 @@ const nodeTypes = {
   UserBehaviorAnalysis: UserBehaviorAnalysis,
   ActionNode: ActionNode,
   IngestionNode: IngestionNode,
+  Fraudulent: Fraudulent,
 };
 
 let id = 3;
@@ -74,17 +77,31 @@ function IntegrationArea() {
   const [configJSON, setConfigJSON] = useState({});
   const [isSaved, setIsSaved] = useState(false);
   const [savedKey, setSavedKey] = useState(apiKey);
+  const [IntegrationName, setIntegrationName] = useState('');
+  const [cost, setCost] = useState(0.0);
 
   const endpoint = `${url.BASIC}apiservice?apikey=${savedKey}`;
 
   let nodesList = { Integration: [] };
   let config = {
     apiKey: apiKey,
+    IntegrationName: IntegrationName,
     clientId: userId,
     endpoint: endpoint,
     input: {},
     nodes: [],
     output: {},
+    cost: 0,
+  };
+
+  const nameChange = (event) => {
+    // data.addIntegrationElement(
+    //   'UserBehaviorAnalysis',
+    //   'duration',
+    //   event.target.value.toString()
+    // );
+    setIntegrationName(event.target.value);
+    // config['IntegrationName'] = event.target.value;
   };
 
   function addParametersElement(nodeType, key, value) {
@@ -176,6 +193,8 @@ function IntegrationArea() {
   const publish = () => {
     setLoading(true);
     console.log({ CONFIG: configJSON });
+    configJSON['IntegrationName'] = IntegrationName;
+    configJSON['cost'] = cost;
     publishMutation.mutate(configJSON);
   };
 
@@ -219,6 +238,8 @@ function IntegrationArea() {
             body: 'body',
             node: newNode,
           };
+          const newCost = cost;
+          setCost(newCost + 0.001);
           addConfigElement('Input', inputConfig);
           setNodes((nds) => nds.concat(newNode));
         }
@@ -230,6 +251,20 @@ function IntegrationArea() {
           body: 'body',
           node: newNode,
         };
+        const newCost = cost;
+        setCost(newCost + 0.001);
+        addConfigIntegration(inputConfig);
+        setNodes((nds) => nds.concat(newNode));
+      }
+      if (type == 'Fraudulent') {
+        inputConfig = {
+          type: 'Integration',
+          name: 'Fraudulent',
+          body: 'body',
+          node: newNode,
+        };
+        const newCost = cost;
+        setCost(newCost + 0.001);
         addConfigIntegration(inputConfig);
         setNodes((nds) => nds.concat(newNode));
       }
@@ -254,6 +289,7 @@ function IntegrationArea() {
           body: 'body',
           node: newNode,
         };
+        setCost(cost + 0.1);
         addConfigIntegration(inputConfig);
         setNodes((nds) => nds.concat(newNode));
       }
@@ -267,6 +303,7 @@ function IntegrationArea() {
             body: 'body',
             node: newNode,
           };
+          setCost(cost + 0.2);
           addConfigElement('Output', inputConfig);
           setNodes((nds) => nds.concat(newNode));
         }
@@ -315,10 +352,15 @@ function IntegrationArea() {
                     gap: '8px',
                   }}
                 >
-                  <Input
-                    style={{ width: '300px' }}
-                    placeholder="Name of Integration"
-                  />
+                  <Form name="nameBase" autoComplete="off">
+                    <Form.Item name="nameInt">
+                      <Input
+                        onChange={nameChange}
+                        style={{ width: '300px' }}
+                        placeholder="Name of Integration"
+                      />
+                    </Form.Item>
+                  </Form>
                   <Text
                     style={{ color: '#002855' }}
                     copyable={{
@@ -338,6 +380,16 @@ function IntegrationArea() {
                   >
                     <b>Endpoint: </b>
                     {endpoint}
+                  </Text>
+
+                  <Text
+                    style={{ color: '#002855' }}
+                    // copyable={{
+                    //   tooltips: false,
+                    //   text: cost,
+                    // }}
+                  >
+                    <b>Cost: </b>$0.202
                   </Text>
                 </div>
 

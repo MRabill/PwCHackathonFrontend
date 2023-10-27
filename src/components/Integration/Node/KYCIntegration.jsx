@@ -30,6 +30,7 @@ const KYCIntegration = ({ data, isConnectable }) => {
 
   useEffect(() => {
     data.addIntegrationElement('KYCIntegration', 'criteria', []);
+    data.addIntegrationElement('KYCIntegration', 'id', 1);
   }, []);
 
   const key = getRandomInt(9999);
@@ -145,6 +146,7 @@ const KYCIntegration = ({ data, isConnectable }) => {
             // onChange={onChange}
             // stringMode
           />
+          <Text style={{ color: '#8c8c8c' }}>Cost: $0.001 per request</Text>
           {/* <Input
             key={key + 1}
             onChange={onChange}
